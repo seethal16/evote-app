@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="EvoteApp">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-Vote | Home</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="js/app.js"></script>
+
+  <!-- ✅ Redirect to login if user not logged in -->
+  <script>
+    if (!localStorage.getItem("username")) {
+      window.location.href = "login.html";
+    }
+  </script>
+</head>
+<body>
+
+  <!-- Include Header -->
+  <div ng-include="'includes/header.html'"></div>
+
+  <div class="container" ng-controller="HomeCtrl">
+    <h2>Welcome to the E-Voting System</h2>
+
+    <div class="welcome-box">
+      <p>Hello, <strong>{{username}}</strong> 👋</p>
+      <p>Welcome to the online voting system. You can cast your vote securely and view results.</p>
+    </div>
+
+    <div class="home-options">
+      <button onclick="window.location.href='vote.html'">Cast Your Vote</button>
+      <button onclick="window.location.href='results.html'">View Results</button>
+    </div>
+  </div>
+
+  <!-- Include Footer -->
+  <div ng-include="'footer.html'"></div>
+
+  <script>
+    // Angular Controller to display logged username
+    angular.module("EvoteApp").controller("HomeCtrl", function ($scope) {
+      $scope.username = localStorage.getItem("username");
+
+      $scope.logout = function () {
+        localStorage.removeItem("username");
+        window.location.href = "login.html";
+      };
+    });
+  </script>
+</body>
+</html>

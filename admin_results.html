@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html ng-app="EvoteApp" ng-controller="ResultsCtrl">
+<head>
+  <title>Election Results - Admin</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background-color: #f9f9f9;
+      text-align: center;
+    }
+    h2 { margin-top: 30px; color: #333; }
+    .container {
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 20px;
+      background: #fff;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border-radius: 10px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      padding: 12px;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+    }
+    th { background-color: #007bff; color: white; }
+    tr:hover { background-color: #f1f1f1; }
+    .top-candidate {
+      background-color: #d4edda !important;
+      font-weight: bold;
+    }
+    .btn {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: 0.3s;
+      display: inline-block;
+      margin-top: 10px;
+    }
+    .btn:hover { background-color: #0056b3; }
+
+    .admin-menu {
+      background: #ffffff;
+      padding: 15px 0;
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+  </style>
+
+</head>
+<body>
+  <div class="container">
+    <h2>Election Results</h2>
+    <div class="admin-menu">
+        <a href="admin-home.php">🏠 Add Candidate</a>
+        <a href="admin_results.html">📊 Results</a>
+        <a href="view_candidates.php">👥 View All Candidates</a>
+  </div>
+    <a href="admin-home.php">← Back to Home</a>
+
+    <table>
+      <tr>
+        <th>Rank</th>
+        <th>Candidate Name</th>
+        <th>Party</th>
+        <th>Total Votes</th>
+      </tr>
+      <tr ng-repeat="c in candidates" ng-class="{'top-candidate': $index === 0}">
+        <td>{{$index + 1}}</td>
+        <td>{{c.name}}</td>
+        <td>{{c.party}}</td>
+        <td>{{c.votes}}</td>
+      </tr>
+    </table>
+
+    <p ng-if="candidates.length > 0" style="margin-top: 15px; font-weight: bold; color: #155724;">
+      🏆 The highlighted candidate is currently leading!
+    </p>
+    <p ng-if="candidates.length === 0" style="margin-top: 15px; color: #555;">
+      No votes have been cast yet.
+    </p>
+  </div>
+
+  <script>
+    var app = angular.module("EvoteApp", []);
+    app.controller("ResultsCtrl", function($scope, $http) {
+      $http.get("api/get_results.php").then(function(response) {
+        $scope.candidates = response.data;
+      });
+    });
+  </script>
+</body>
+</html>
