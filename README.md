@@ -97,3 +97,5 @@ Table: Votes
 | candidate_id   | INT          | Candidate ID      |
 
 GitHub: github.com/seethal16# evote-app
+
+https://github.com/seethal16/evote-app/
